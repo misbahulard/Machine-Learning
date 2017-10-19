@@ -18,12 +18,74 @@ def find_s(h, d):
 
     return h
 
+def hipotesa(g, s):
+    gTemp = []
+    flags = []
+    for ds in s:
+        if ds != '?':
+            flags.append(ds)
+
+    flagIdx = 0
+    i = 0
+    for f in flags:
+        pieces = []
+        count = 0
+        idx = 0
+        for ds in s:
+            if idx < flagIdx:
+                continue
+            if count < 2:
+                if f == ds:
+                    pieces.append(f)
+                    flagIdx = idx
+                    count += 1
+                elif f != ds and ds != '?':
+                    pieces.append(ds)
+                    count += 1
+                else:
+                    pieces.append('?')
+            else:
+                break
+            idx += 1
+        gTemp.append(pieces)
+        i += 1
+
+    print(pieces)
+        # if dg[idx] != '?':
+        #     flag = dg[idx]
+        #     print('flag: ', flag)
+        #     for ds in s:
+        #         if flag != ds:
+        #             if count < 2:
+        #                 pieces.append(ds)
+        #             else:
+        #                 pieces.append('?')
+        #                 if ds != '?':
+        #                     flag
+        #         else:
+        #             pieces.append(flag)
+        #         count += 1
+        #     idx += 1
+        #     print('pieces: ', pieces)
+        #     gTemp.append(pieces)
+        # print(gTemp)
+        # if s[idx] != '?':
+        #     print(dg[idx])
+        #     print(s[idx])
+        #     print('======')
+        #     if dg[idx] == s[idx]:
+        #         print(s[idx])
+        #         gTemp.append(s[idx])
+        # idx += 1
+        # print(gTemp)
+
+    # print(gTemp)
+    # g = gTemp
+
 def main():
     print('Candidate elimination\n')
     tipeIdx = len(df[0]) - 1
     trueCol = len(attributes)
-    s = []
-    g = []
     s = df[0]
     g = [['?'] * trueCol] * trueCol
 
@@ -37,13 +99,10 @@ def main():
                     for i in range(len(dg)):
                         temp = ['?'] * trueCol
                         if i == idx:
+                            # jika data general tidak sama dengan specific maka g baru di isi nilai spesifik
                             if dg[i] != s[idx]:
                                 temp[idx] = s[idx]
                                 g[i] = temp
-                                # print('i: ', i, 'idx: ', idx)
-                                # print(i, 'temp => ', temp)
-                                # print(i, 'dg => ', g)
-                                # print()
                         idx += 1
             else:
 
@@ -55,13 +114,10 @@ def main():
                     for i in range(len(dg)):
                         temp = ['?'] * trueCol
                         if i == idx:
+                            # jika data general sama dengan specific maka g baru di isi nilai spesifik
                             if dg[i] == s[idx]:
                                 temp[idx] = s[idx]
                                 g[i] = temp
-                                # print('i: ', i, 'idx: ', idx)
-                                # print(i, 'temp => ', temp)
-                                # print(i, 'dg => ', g)
-                                # print()
                         idx += 1
         else:
             idx = 0
@@ -70,31 +126,14 @@ def main():
 
                     temp = ['?'] * trueCol
                     if i == idx:
+                        # Jika data tidak sama maka g di isi nilai s
                         if dg[i] != data[idx]:
                             g[i] = temp
-                            # print('dg => ', i, ' ', dg[i])
-                            # print('data =>', data[idx])
-                            # print('temp => ', temp)
                             temp[idx] = s[idx]
                         else:
                             temp[idx] = '?'
                             g[i] = temp
-                            # print('i: ', i, 'idx: ', idx)
-                            # print(i, 'temp => ', temp)
-                            # print(i, 'dg => ', g)
-                            # print()
                 idx += 1
-                # for i in range(len(g)):
-                #     if i == idx:
-                #         print('==> ', i, ' ',idx)
-                #         if g[i][idx] != s[idx]:
-                #             print('row: ', i)
-                #             print('g =>', g[i])
-                #             print('s =>', s[idx])
-                #             print('\n')
-                #             g[i][idx] = s[idx]
-                #         idx += 1
-                # print(g)
         count += 1
 
 
@@ -120,6 +159,9 @@ def main():
     print('Hasil: ')
     print('specific: {}'.format(s))
     print('general: {}'.format(g))
+    print('Hipotesa: ')
+    hipotesa(g, s)
+    print('==============================================================\n')
 
 if __name__ == '__main__':
     main()
