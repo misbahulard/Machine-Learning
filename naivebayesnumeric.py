@@ -81,6 +81,7 @@ def mean_attr(attr):
             no.append(df[attr][x])
 
     mean = [np.mean(yes), np.mean(no)]
+    # print("mean: ", mean)
     return mean
 
 
@@ -113,6 +114,8 @@ def pred(tes, training, play):
 
     temp = [tempYes, tempNo]
 
+    # print("Hitungan temp:\n", temp)
+
     humidityYes = 1 / (math.sqrt(2 * math.pi) * (training[2][1][0])) * math.pow(math.e, -(
         ((tes[1] - training[2][0][0]) ** 2) / (2 * (training[2][1][0]) ** 2)))
     humidityNo = 1 / (math.sqrt(2 * math.pi) * (training[1][1][1])) * math.pow(math.e, -(
@@ -126,10 +129,14 @@ def pred(tes, training, play):
 
     for dt in arr:
         yesRes = yesRes * dt[0]
+        print(yesRes)
         noRes = noRes * dt[1]
+
+    print(play[0])
 
     yesRes = yesRes * play[0]
     noRes = noRes * play[1]
+
 
     print("=> Yes Value: ", yesRes)
     print("=> No Value: ", noRes)
@@ -152,8 +159,10 @@ def main():
     temp_mean = mean_attr('Temp')
     temp_std_dev = std_dev_attr('Temp')
     temp = [temp_mean, temp_std_dev]
+    print("std_dev temp:\n", temp_std_dev)
     humidity_mean = mean_attr('Humidity')
     humidity_std_dev = std_dev_attr('Humidity')
+    print("std hum: \n", humidity_std_dev)
     humidity = [humidity_mean, humidity_std_dev]
     training = [outlook, temp, humidity, windy]
 

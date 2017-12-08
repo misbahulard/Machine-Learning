@@ -1,4 +1,5 @@
 import pandas as pd
+from matplotlib import pyplot as plt
 import operator
 import math
 
@@ -27,6 +28,7 @@ def getNeighbors(training, test, k):
     neighbors = []
     for x in range(k):
         neighbors.append(distances[x][0])
+        # print(distances[x][1])
     return neighbors
 
 
@@ -51,6 +53,7 @@ def main():
     training = df.values
 
     # Example input (5 2 4 2) / (6 6 4 3)
+    # testInput = [5, 2, 4, 2]
     print("Input data test")
     testInput = list(map(float, input().split()))
 
@@ -65,7 +68,38 @@ def main():
         print("=> ", ng[-1])
 
     predict(neighbors)
+    # Menampilkan plot sepal
+    iris_setosaX = [x[0] for x in training if x[4] == 'Iris-setosa']
+    iris_setosaY = [x[1] for x in training if x[4] == 'Iris-setosa']
+    iris_versicolorX = [x[0] for x in training if x[4] == 'Iris-versicolor']
+    iris_versicolorY = [x[1] for x in training if x[4] == 'Iris-versicolor']
+    iris_virginicaX = [x[0] for x in training if x[4] == 'Iris-virginica']
+    iris_virginicaY = [x[1] for x in training if x[4] == 'Iris-virginica']
 
+    plt.figure(1)
+    plt.scatter(iris_setosaX, iris_setosaY, alpha=0.2, c='r', marker='x')
+    plt.scatter(iris_versicolorX, iris_versicolorY, alpha=0.2, c='g', marker='^')
+    plt.scatter(iris_virginicaX, iris_virginicaY, alpha=0.2, c='b', marker='+')
+    plt.scatter(testInput[0], testInput[1], c=[1, 1, 0])
+    plt.xlabel('Sepal length')
+    plt.ylabel('Sepal width')
+
+    # Menampilkan plot petal
+    iris_setosaX = [x[2] for x in training if x[4] == 'Iris-setosa']
+    iris_setosaY = [x[3] for x in training if x[4] == 'Iris-setosa']
+    iris_versicolorX = [x[2] for x in training if x[4] == 'Iris-versicolor']
+    iris_versicolorY = [x[3] for x in training if x[4] == 'Iris-versicolor']
+    iris_virginicaX = [x[2] for x in training if x[4] == 'Iris-virginica']
+    iris_virginicaY = [x[3] for x in training if x[4] == 'Iris-virginica']
+
+    plt.figure(2)
+    plt.scatter(iris_setosaX, iris_setosaY, alpha=0.2, c='r', marker='x')
+    plt.scatter(iris_versicolorX, iris_versicolorY, alpha=0.2, c='g', marker='^')
+    plt.scatter(iris_virginicaX, iris_virginicaY, alpha=0.2, c='b', marker='+')
+    plt.scatter(testInput[2], testInput[3], c=[1, 1, 0])
+    plt.xlabel('Petal length')
+    plt.ylabel('Petal width')
+    plt.show()
 
 if __name__ == "__main__":
     main()
